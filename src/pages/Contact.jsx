@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { Suspense, useRef, useState } from "react";
+import { React, Suspense, useRef, useState } from "react";
 import emailjs from '@emailjs/browser';
 
 import Loader from '../components/Loader';

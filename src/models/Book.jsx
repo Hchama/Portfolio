@@ -7,7 +7,7 @@ Title: Medieval Fantasy Book
 */
 
 import { useGLTF, useAnimations } from '@react-three/drei'
-import { useRef, useEffect } from 'react';
+import { React, useRef, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber'
 import { a } from '@react-spring/three'
 
