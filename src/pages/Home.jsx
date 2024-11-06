@@ -13,7 +13,8 @@ import Tutorial from '../components/Tutorial'
 
 
 const Home = () => {
-  
+
+  const [isLoaded, setIsLoaded] = useState(false)
   //libraries and variables
   const audioRef = useRef(new Audio(medieval));
   audioRef.current.volume = 0.3;
@@ -23,14 +24,21 @@ const Home = () => {
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
 
   //useEffect for music
-  useEffect(() =>{
-      if (isPlayingMusic) {
-        audioRef.current.play();
-      }
+  useEffect(() => {
+    const loadModel = async () => {
+      // Simulate loading delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setIsLoaded(true);
+    };
+    loadModel();
 
-      return() => {
-        audioRef.current.pause();
-      }
+    if (isPlayingMusic) {
+      audioRef.current.play();
+    }
+
+    return () => {
+      audioRef.current.pause();
+    }
   }, [isPlayingMusic])
 
   //adjustments function
@@ -39,10 +47,10 @@ const Home = () => {
     let screenPosition = [0, -6.5, -43];
     let rotation = [0.1, 4.7, 0];
 
-    if (window.innerWidth <768) {
+    if (window.innerWidth < 768) {
       screenScale = [0.5, 0.5, 0.5];
     } else {
-      screenScale = [0.67,0.67,0.67];
+      screenScale = [0.67, 0.67, 0.67];
     }
     return [screenScale, screenPosition, rotation]
   }
@@ -50,12 +58,12 @@ const Home = () => {
   const adjustDragonforScreenSize = () => {
     let screenScale, screenPosition;
 
-    if (window.innerWidth <768) {
+    if (window.innerWidth < 768) {
       screenScale = [0.0125, 0.0125, 0.0125];
       screenPosition = [0, -2.5, 0]
     } else {
-      screenScale = [0.025,0.025,0.025];
-      screenPosition =[-5, -4, -5]
+      screenScale = [0.025, 0.025, 0.025];
+      screenPosition = [-5, -4, -5]
     }
     return [screenScale, screenPosition];
   }
@@ -63,13 +71,13 @@ const Home = () => {
   const adjustBirdforScreenSize = () => {
     let screenScale, screenPosition;
 
-    if (window.innerWidth <768) {
+    if (window.innerWidth < 768) {
       screenScale = [1, 1, 1];
       screenPosition = [-5, 0, 0]
-      
+
     } else {
-      screenScale = [1,1,1];
-      screenPosition =[-10, 0, 0]
+      screenScale = [1, 1, 1];
+      screenPosition = [-10, 0, 0]
 
     }
     return [screenScale, screenPosition];
@@ -82,64 +90,59 @@ const Home = () => {
   //webpage design
   return (
     <section className='w-full h-screen relative'>
-  
-    <div className='absolute top-28 left-0 right-0 z-10 flex
+
+      <div className='absolute top-28 left-0 right-0 z-10 flex
       items-center justify-center'>
-        {currentStage && <HomeInfo currentStage={currentStage}/>} 
-    </div>
+        {currentStage && <HomeInfo currentStage={currentStage} />}
+      </div>
 
-      <Canvas 
-        className={`w-full h-screen bg-transparent ${
-        isRotating ? "cursor-grabbing" : "cursor-default"
-        }`}
+      <Canvas
 
-        
-        camera={{ near: 0.1, far: 1000}}
+        className={`w-full h-screen bg-transparent ${isRotating ? "cursor-grabbing" : "cursor-default"
+          }`}
+
+
+        camera={{ near: 0.1, far: 1000 }}
       >
         <Suspense fallback={<Loader />}>
-            
-          <directionalLight position={[15,12,10]} intensity={1.5}/>
-          <ambientLight intensity={0.3}/>
-          <hemisphereLight skyColor='#b1e1ff' groundColor='#000000' intensity={1}/>
+        <directionalLight position={[15,12,10]} intensity={1.5}/>
+        <ambientLight intensity={0.3}/>
+        <hemisphereLight skyColor='#b1e1ff' groundColor='#000000' intensity={1}/>
+        
+          {isLoaded && (<>
+    
+            <Bird position={birdPosition}
+              scale={birdScale}
+              rotation={[0, -20, 0]} />
 
-          <Bird
-            position={birdPosition}
-            scale={birdScale}
-            rotation={[0, -20, 0]}
-           />
-           
-          <Sky
-            isRotating={isRotating}
-           />
+            <Sky isRotating={isRotating}
+            />
 
-          <Book
-              position={bookPosition}
+            <Book position={bookPosition}
               scale={bookScale}
               rotation={bookRotation}
               isRotating={isRotating}
               setCurrentStage={setCurrentStage}
-              setIsRotating={setIsRotating}
-          />
+              setIsRotating={setIsRotating} />
 
-          {<Dragon 
-            scale = {dragonScale} 
-            position = {dragonPosition}
-            isRotating = {isRotating}
-            rotation = {[0,20,0]}
-          />}
+            <Dragon scale={dragonScale}
+              position={dragonPosition}
+              isRotating={isRotating}
+              rotation={[0, 20, 0]} />
 
+          </>)}
         </Suspense>
       </Canvas>
-      
+
       <div>
-      <Tutorial message="Press A or -> to go forward and D or <- to go backward" duration={20000}/>
+        <Tutorial message="Press A or -> to go forward and D or <- to go backward" duration={20000} />
       </div>
       <div className='absolute bottom-2 left-2'>
         <img
-        src={!isPlayingMusic ? soundoff : soundon}
-        alt='sound'
-        className='w-10 h-10 cursor-pointer object-contain'
-        onClick={() => setIsPlayingMusic(!isPlayingMusic)}
+          src={!isPlayingMusic ? soundoff : soundon}
+          alt='sound'
+          className='w-10 h-10 cursor-pointer object-contain'
+          onClick={() => setIsPlayingMusic(!isPlayingMusic)}
         />
 
       </div>
