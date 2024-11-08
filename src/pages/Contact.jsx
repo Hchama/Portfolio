@@ -46,7 +46,7 @@ const Contact = () => {
 
       ).then(() =>{
         setIsLoading(false);
-        showAlert({show: true, text: 'Message sent succesffuly!', type: 'success'})
+        showAlert({show: true, text: 'Message sent successfully!', type: 'success'})
         
 
         setTimeout(() => {
