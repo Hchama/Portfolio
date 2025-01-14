@@ -162,7 +162,7 @@ export const experiences = [
                 "Developing software applications using python and other related technologies.",
                 "Collaborating with cross-functional teams including product managers, and other developers to create and ensure high-quality products.",
                 "Installing and testing mobile applications to ensure optimal performance and reliability before distribution to stakeholders and clients.",
-                "Providing insights in aProviding insights to enhance applications and optimize data cleaning methods.",
+                "Providing insights to enhance applications and optimize data cleaning methods.",
         ],
     },
 ];
@@ -205,7 +205,7 @@ export const projects = [
         iconUrl: book,
         theme: 'btn-back-pink',
         name: 'Readery',
-        description: 'Built a novel reading program for android using Flutter framework, allowing users to read novels and connect or chat with other users in a familiar social media environment.',
+        description: 'Built a novel reading program for android using Flutter framework, allowing users to read novels.',
         link: 'https://github.com/Hchama/Readery',
     },
     {
